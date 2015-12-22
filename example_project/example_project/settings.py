@@ -17,7 +17,6 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -28,13 +27,6 @@ SECRET_KEY = '68@&czm4y_)3udh9v^@ltidy%bk)l5ii9fq7542re5j%!x2*jw'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
-
-
-
-
-
 
 # adds core directory to sys.path in order to be able to add skd_smoke app
 # to INSTALLED_APPS
@@ -50,27 +42,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 'easy_thumbnails',
-    # 'image_cropping',
+    'easy_thumbnails',
+    'image_cropping',
+    # 'cropduster',
 
+    'django_extensions',
     'skd_crop',
 
     'accounts',
 ]
 
-# from easy_thumbnails.conf import Settings as thumbnail_settings
-# THUMBNAIL_PROCESSORS = (
-#     'image_cropping.thumbnail_processors.crop_corners',
-# ) + thumbnail_settings.THUMBNAIL_PROCESSORS
+from easy_thumbnails.conf import Settings as thumbnail_settings
+
+THUMBNAIL_PROCESSORS = (
+                           'image_cropping.thumbnail_processors.crop_corners',
+                       ) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 AUTH_USER_MODEL = 'accounts.UserProfile'
-
-
-
-
-
-
-
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -103,7 +91,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'example_project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
@@ -113,7 +100,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -133,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -147,8 +132,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+os.environ.setdefault('WERKZEUG_DEBUG_PIN', 'off')

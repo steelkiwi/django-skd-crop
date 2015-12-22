@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from cropduster.fields import CropDusterField
+from cropduster.resizing import Size
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from skd_crop.fields import SKDThumbnailerImageModelField
 from skd_crop.models import SKDImageField
 
 
@@ -41,3 +44,20 @@ class UserProfile(AbstractUser):
 
     def __unicode__(self):
         return 'UserProfile %s' % self.username
+
+
+class ChildProfile(models.Model):
+    name = models.CharField(max_length=50)
+    avatar = CropDusterField(upload_to='img/avatars', sizes=[
+        Size('main', w=1024, h=768, label='Main'),
+        Size('thumb', w=400, h=300, label='Thumbnail'),
+    ])
+
+
+class Profile(models.Model):
+    IMAGE_SIZES = {
+        'large': {'size': (800, 600), 'crop': True, 'label': _('Large')},
+        'medium': {'size': (500, 300), 'crop': True, 'label': _('Medium')},
+        'small': {'size': (200, 100), 'crop': True, 'label': _('Small')}
+    }
+    image = SKDThumbnailerImageModelField(upload_to='avatars', resize_source={'size': (1024, 768)}, sizes=IMAGE_SIZES)

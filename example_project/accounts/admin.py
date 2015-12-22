@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from accounts.models import UserProfile
-
+from .models import UserProfile, ChildProfile, Profile
 
 admin.site.register(UserProfile)
+admin.site.register(ChildProfile)
+admin.site.register(Profile)

@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from django import forms
+from easy_thumbnails.fields import ThumbnailerImageField
 
-from skd_crop.widgets import SKDMultiWidgetBasic
+from .widgets import SKDMultiWidgetBasic, SKDCropWidget
 
 
 class SKDMultiField(forms.MultiValueField):
@@ -21,3 +22,21 @@ class SKDMultiField(forms.MultiValueField):
         if data_list:
             return ':::'.join(data_list)
         return ''
+
+
+class SKDThumbnailerImageFormField(forms.FileField):
+    # widget = forms.widgets.ClearableFileInput
+    widget = SKDCropWidget
+
+
+class SKDThumbnailerImageModelField(ThumbnailerImageField):
+
+    def __init__(self, *args, **kwargs):
+        self.sizes = kwargs.pop('sizes', None)
+        super(SKDThumbnailerImageModelField, self).__init__(*args, **kwargs)
+        self.widget = SKDCropWidget(sizes=self.sizes, upload_to=self.upload_to)
+
+    def formfield(self, **kwargs):
+        defaults = {'widget': self.widget}
+        defaults.update(kwargs)
+        return super(SKDThumbnailerImageModelField, self).formfield(**defaults)

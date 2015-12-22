@@ -1,9 +1,12 @@
+/example_project/db.sqlite3
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
 # C extensions
 *.so
+/example_project/media
+/example_project/static
 
 # Distribution / packaging
 .Python

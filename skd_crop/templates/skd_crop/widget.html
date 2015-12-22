@@ -1,0 +1,6 @@
+{% load i18n %}
+{% for key, value in sizes.items %}
+    <p><button class="button crop">{% trans "Crop" %} {{ value.label }} ({{ value.size.0 }}x{{ value.size.1 }})</button></p>
+{% endfor %}
+<p>{{ upload_to }}</p>
+<p>{{ tmp_upload_to }}</p>

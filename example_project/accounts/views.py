@@ -3,11 +3,12 @@ from __future__ import unicode_literals
 import json
 
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import JsonResponse
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, CreateView
 
-from accounts.forms import UserProfileForm
+from .forms import UserProfileForm
+from .models import Profile
 
 
 class UserProfileView(UpdateView):
@@ -37,3 +38,19 @@ class UserProfileView(UpdateView):
             return JsonResponse(serialized_obj)
         else:
             return super(UserProfileView, self).form_valid(form)
+
+
+class ProfileCreateView(CreateView):
+    model = Profile
+    fields = ['image']
+
+    def get_success_url(self):
+        return reverse('profile-update', kwargs={'pk': self.object.pk})
+
+
+class ProfileUpdateView(UpdateView):
+    model = Profile
+    fields = ['image']
+
+    def get_success_url(self):
+        return reverse('profile-update', kwargs={'pk': self.object.pk})
