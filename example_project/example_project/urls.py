@@ -9,7 +9,6 @@ urlpatterns = [
     url(r'^$', ProfileCreateView.as_view(), name='profile-create'),
     url(r'^edit/(?P<pk>\d+)$', ProfileUpdateView.as_view(), name='profile-update'),
     url(r'^admin/', admin.site.urls),
-    url(r'^cropduster/', include('cropduster.urls')),
-    url(r'^ajax/', include('skd_crop.urls')),
+    url(r'^skd-crop/', include('skd_crop.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

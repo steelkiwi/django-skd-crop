@@ -2,7 +2,9 @@
 from __future__ import unicode_literals
 
 from django import forms
-from accounts.models import UserProfile
+from django.forms import formset_factory
+
+from accounts.models import UserProfile, Profile
 
 
 class UserProfileForm(forms.ModelForm):

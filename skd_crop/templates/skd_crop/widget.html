@@ -1,6 +1,8 @@
-{% load i18n %}
+{% load i18n static %}
+<img id="img_{{ name }}" src="{{ img_src }}" alt="">
+<p><input type="file" id="id_{{ name }}" name="{{ name }}" accept="image/*" data-upload-to="{{ tmp_upload_to }}" data-resize-source="{{ resize_source }}"/></p>
+<p><button class="button remove-btn" id="remove-image" {% if not initial %}disabled{% endif %}>{% trans "Remove" %}</button></p>
 {% for key, value in sizes.items %}
-    <p><button class="button crop">{% trans "Crop" %} {{ value.label }} ({{ value.size.0 }}x{{ value.size.1 }})</button></p>
+    <p><button class="button crop-btn" id="crop-{{ key }}-{{ name }}">{% trans "Crop" %} {{ value.label }} ({{ value.size.0 }}x{{ value.size.1 }})</button></p>
 {% endfor %}
-<p>{{ upload_to }}</p>
 <p>{{ tmp_upload_to }}</p>

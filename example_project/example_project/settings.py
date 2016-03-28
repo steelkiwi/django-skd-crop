@@ -43,20 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'easy_thumbnails',
-    'image_cropping',
-    # 'cropduster',
-
-    'django_extensions',
     'skd_crop',
 
     'accounts',
 ]
-
-from easy_thumbnails.conf import Settings as thumbnail_settings
-
-THUMBNAIL_PROCESSORS = (
-                           'image_cropping.thumbnail_processors.crop_corners',
-                       ) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 AUTH_USER_MODEL = 'accounts.UserProfile'
 

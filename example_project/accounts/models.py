@@ -60,4 +60,5 @@ class Profile(models.Model):
         'medium': {'size': (500, 300), 'crop': True, 'label': _('Medium')},
         'small': {'size': (200, 100), 'crop': True, 'label': _('Small')}
     }
-    image = SKDThumbnailerImageModelField(upload_to='avatars', resize_source={'size': (1024, 768)}, sizes=IMAGE_SIZES)
+    image = SKDThumbnailerImageModelField(upload_to='avatars', resize_source={'size': (600, 450)}, sizes=IMAGE_SIZES)
+    name = models.CharField(max_length=50, blank=True)

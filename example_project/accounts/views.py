@@ -4,6 +4,7 @@ import json
 
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.forms import modelformset_factory
 from django.http import JsonResponse
 from django.views.generic import UpdateView, CreateView
 
@@ -42,7 +43,7 @@ class UserProfileView(UpdateView):
 
 class ProfileCreateView(CreateView):
     model = Profile
-    fields = ['image']
+    fields = ['image', 'name']
 
     def get_success_url(self):
         return reverse('profile-update', kwargs={'pk': self.object.pk})
@@ -50,7 +51,7 @@ class ProfileCreateView(CreateView):
 
 class ProfileUpdateView(UpdateView):
     model = Profile
-    fields = ['image']
+    fields = ['image', 'name']
 
     def get_success_url(self):
         return reverse('profile-update', kwargs={'pk': self.object.pk})

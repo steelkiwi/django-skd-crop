@@ -8,6 +8,7 @@ VERSION = open(os.path.join(here, 'VERSION')).read()
 requires = [
     'Pillow',
     'six',
+    'easy-thumbnails'
 ]
 
 setup(name='django-skd-crop',

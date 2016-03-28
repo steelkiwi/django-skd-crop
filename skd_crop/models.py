@@ -4,6 +4,7 @@ import json
 
 from django.db import models
 from django.forms import CharField
+from easy_thumbnails.fields import ThumbnailerImageField
 
 """
 Создать SKDImageFormField (кастомное поле формы со своим виджетом)
@@ -151,3 +152,8 @@ class SKDImageField(models.TextField):
         defaults = {'form_class': CharField}
         defaults.update(kwargs)
         return super(SKDImageField, self).formfield(**defaults)
+
+
+class TmpSource(models.Model):
+    image = ThumbnailerImageField(upload_to='tmp')
+    created = models.DateTimeField(auto_now=True)

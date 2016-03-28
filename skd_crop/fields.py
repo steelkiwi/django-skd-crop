@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
+
 from django import forms
 from easy_thumbnails.fields import ThumbnailerImageField
 
@@ -24,17 +26,16 @@ class SKDMultiField(forms.MultiValueField):
         return ''
 
 
-class SKDThumbnailerImageFormField(forms.FileField):
-    # widget = forms.widgets.ClearableFileInput
-    widget = SKDCropWidget
-
-
 class SKDThumbnailerImageModelField(ThumbnailerImageField):
 
     def __init__(self, *args, **kwargs):
         self.sizes = kwargs.pop('sizes', None)
         super(SKDThumbnailerImageModelField, self).__init__(*args, **kwargs)
-        self.widget = SKDCropWidget(sizes=self.sizes, upload_to=self.upload_to)
+        self.widget = SKDCropWidget(
+            sizes=self.sizes,
+            upload_to=self.upload_to,
+            resize_source=json.dumps(self.resize_source)
+        )
 
     def formfield(self, **kwargs):
         defaults = {'widget': self.widget}
