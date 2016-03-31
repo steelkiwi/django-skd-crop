@@ -3,27 +3,9 @@ from __future__ import unicode_literals
 
 import json
 
-from django import forms
 from easy_thumbnails.fields import ThumbnailerImageField
 
-from .widgets import SKDMultiWidgetBasic, SKDCropWidget
-
-
-class SKDMultiField(forms.MultiValueField):
-    widget = SKDMultiWidgetBasic
-
-    def __init__(self, *args, **kwargs):
-        fields = (
-            forms.CharField(),
-            forms.CharField(),
-            forms.CharField(),
-        )
-        super(SKDMultiField, self).__init__(fields, *args)
-
-    def compress(self, data_list):
-        if data_list:
-            return ':::'.join(data_list)
-        return ''
+from .widgets import SKDCropWidget
 
 
 class SKDThumbnailerImageModelField(ThumbnailerImageField):

@@ -38,7 +38,34 @@ $(function () {
             success: function (data) {
                 $(img_id).attr('src', data.url);
             }
-        })
+        });
+    });
 
-    })
+    /* JCROP */
+    var jcrop_api;
+    var jcrop_data = {};
+
+    $('#base_img').Jcrop({}, function(){
+        jcrop_api = this;
+    });
+
+    $('.get_crop_size').click(function(){
+        var crop_width = $(this).attr('data-crop-width');
+        var crop_height = $(this).attr('data-crop-height');
+
+        $('.get_crop_size').removeClass('active');
+        $(this).addClass('active');
+
+        jcrop_api.setSelect([ 0, 0, crop_width, crop_height ]);
+
+        return false;
+    });
+
+    $('.get_crop_area').click(function(){
+        var active_size = $('.get_crop_size.active').attr('data-crop-key');
+        jcrop_data[active_size] = jcrop_api.tellSelect();
+        $('.django_skd_crop-input').val(JSON.stringify(jcrop_data));
+        return false;
+    });
+
 });

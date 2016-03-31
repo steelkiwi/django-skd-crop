@@ -1,0 +1,23 @@
+{% load i18n %}
+{% load static %}
+
+{#<img id="img_{{ image_field }}" src="{{ image_field.url }}" alt="">#}
+
+<p><input type="file" id="id_{{ image_field }}" name="{{ image_field }}" accept="image/*" data-upload-to="{{ tmp_upload_to }}" data-resize-source="{{ resize_source }}"/></p>
+{#<p><button class="button remove-btn" id="remove-image" {% if not initial %}disabled{% endif %}>{% trans "Remove" %}</button></p>#}
+
+{% for key, value in parameters.items %}
+    <p>
+        <button class="button get_crop_size"
+                id="crop-{{ key }}"
+                data-crop-key="{{ key }}"
+                data-crop-width="{{ value.width }}"
+                data-crop-height="{{ value.height }}">
+            {% trans "Get Crop Area" %} {{ value.label }} ({{ value.size.0 }}x{{ value.size.1 }})
+        </button>
+    </p>
+{% endfor %}
+
+input: {{ input|safe }}
+
+<button class="get_crop_area">CROP</button>

@@ -4,36 +4,37 @@ from __future__ import unicode_literals
 import os
 
 from django import forms
-from django.forms.widgets import CheckboxInput
 from django.template.loader import render_to_string
 from django.templatetags.static import static
-from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
 
-class SKDMultiWidgetBasic(forms.widgets.MultiWidget):
+class SKDCropWidgetBase(forms.widgets.TextInput):
 
-    def __init__(self):
-        widgets = (
-            forms.TextInput(),
-            forms.TextInput(),
-            forms.TextInput(),
-            forms.TextInput(),
-            forms.TextInput(),
-        )
-        super(SKDMultiWidgetBasic, self).__init__(widgets)
+    class Media:
+        js = ('skd_crop/js/skd_crop.js',)
 
-    def decompress(self, value):
-        if value:
-            value = value.get_list_of_parameters()
-            return [
-                value['userpic_l']['cropped_image'],
-                value['userpic_l']['coordinates']['top_left'],
-                value['userpic_l']['coordinates']['top_right'],
-                value['userpic_l']['coordinates']['bottom_left'],
-                value['userpic_l']['coordinates']['bottom_right'],
-            ]
-        return ['', '']
+    def __init__(self, *args, **kwargs):
+        self.sizes = kwargs.pop('sizes', [])
+        self.image_field = kwargs.pop('image_field', None)
+        self.field_name = kwargs.pop('field_name', None)
+        super(SKDCropWidgetBase, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs=None):
+        _template = 'skd_crop/widget2.html'
+        _input = """
+        <input name="{field_name}" id="id_{field_name}"
+        value='{value}' class="django_skd_crop-input"/>
+        """.format(
+            field_name=self.field_name,
+            value=value)
+
+        context = {
+            'image_field': self.image_field,
+            'sizes': self.sizes,
+            'input': _input}
+
+        return mark_safe(render_to_string(_template, context=context))
 
 
 class SKDCropWidget(forms.widgets.FileInput):

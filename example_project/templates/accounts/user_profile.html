@@ -1,33 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Change profile data</h1>
-    <form id="form" action="{% url 'user_profile' %}" method="post" enctype="multipart/form-data">
+    <form id="form" action="" method="post" enctype="multipart/form-data">
+        {{ form.media }}
         {% csrf_token %}
-        <p>first_name: {{ form.first_name }}</p>
-        <p>last_name: {{ form.last_name }}</p>
-        <p>userpic image: {{ form.userpic_img }}</p>
-        <p>userpic: {{ form.userpic }}</p>
-        <button type="submit">Change</button>
+
+        {# TODO: getting and rendering img should be in widget.html #}
+        {% if object.userpic_img %}
+            <img width="800px" id="base_img" src="{{ object.userpic_img.url }}" alt="">
+        {% endif %}
+
+        <hr>
+
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {{ form.name.errors }}
+
+        <hr>
+
+        {{ form.userpic.label_tag }}
+        {{ form.userpic }}
+        {{ form.userpic.errors }}
+
+        <button type="submit">Submit</button>
     </form>
-
-    <script>
-        $('body').on('submit', '#form', function() {
-            $.ajax({
-                type: $(this).attr('method'),
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                dataType: 'json',
-                enctype: 'multipart/form-data',
-                success: function(response){
-                    console.log(response);
-                },
-                error: function (response, request) {
-                    console.log(response);
-                }
-            });
-            return false;
-        });
-    </script>
-
 {% endblock content %}
